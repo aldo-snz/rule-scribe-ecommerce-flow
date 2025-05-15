@@ -22,6 +22,7 @@ type Rule = {
   createdAt: string;
   updatedAt: string;
   description: string;
+  country: 'EC' | 'UY' | 'AR' | 'PE' | 'CR';
 };
 
 const RulesManagementPage = () => {
@@ -29,7 +30,8 @@ const RulesManagementPage = () => {
     type: 'all',
     status: 'all',
     criteria: 'all',
-    search: ''
+    search: '',
+    country: 'all'
   });
 
   // Sample data for rules
@@ -43,7 +45,8 @@ const RulesManagementPage = () => {
       status: 'active',
       createdAt: '2025-05-10',
       updatedAt: '2025-05-10',
-      description: '15 SKUs de equipos importados sin certificación'
+      description: '15 SKUs de equipos importados sin certificación',
+      country: 'UY'
     },
     {
       id: '2',
@@ -54,7 +57,8 @@ const RulesManagementPage = () => {
       status: 'active',
       createdAt: '2025-05-09',
       updatedAt: '2025-05-12',
-      description: 'Productos con keyword "defectuoso"'
+      description: 'Productos con keyword "defectuoso"',
+      country: 'AR'
     },
     {
       id: '3',
@@ -65,7 +69,8 @@ const RulesManagementPage = () => {
       status: 'active',
       createdAt: '2025-05-08',
       updatedAt: '2025-05-08',
-      description: 'Inclusión de productos de Electrónica > Audio'
+      description: 'Inclusión de productos de Electrónica > Audio',
+      country: 'EC'
     },
     {
       id: '4',
@@ -76,7 +81,8 @@ const RulesManagementPage = () => {
       status: 'inactive',
       createdAt: '2025-05-07',
       updatedAt: '2025-05-11',
-      description: 'Categoría Electrónica con keyword "refurbished"'
+      description: 'Categoría Electrónica con keyword "refurbished"',
+      country: 'PE'
     },
     {
       id: '5',
@@ -87,7 +93,8 @@ const RulesManagementPage = () => {
       status: 'active',
       createdAt: '2025-05-06',
       updatedAt: '2025-05-06',
-      description: 'Electrónica > Telecomunicaciones'
+      description: 'Electrónica > Telecomunicaciones',
+      country: 'CR'
     }
   ];
 
@@ -99,6 +106,7 @@ const RulesManagementPage = () => {
         (filters.status === 'active' && rule.status === 'active') ||
         (filters.status === 'inactive' && rule.status === 'inactive')) &&
       (filters.criteria === 'all' || rule.criteria === filters.criteria) &&
+      (filters.country === 'all' || rule.country === filters.country) &&
       (filters.search === '' || 
         rule.description.toLowerCase().includes(filters.search.toLowerCase()))
     );
@@ -126,7 +134,7 @@ const RulesManagementPage = () => {
       {/* Filters */}
       <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-100 mb-6">
         <h2 className="text-lg font-medium mb-4">Filtros</h2>
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
           <div>
             <label className="text-sm text-gray-500 block mb-1">Tipo de regla</label>
             <Select 
@@ -182,6 +190,26 @@ const RulesManagementPage = () => {
           </div>
 
           <div>
+            <label className="text-sm text-gray-500 block mb-1">País</label>
+            <Select 
+              value={filters.country} 
+              onValueChange={(value) => handleFilterChange('country', value)}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Todos los países" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Todos los países</SelectItem>
+                <SelectItem value="EC">Ecuador</SelectItem>
+                <SelectItem value="UY">Uruguay</SelectItem>
+                <SelectItem value="AR">Argentina</SelectItem>
+                <SelectItem value="PE">Perú</SelectItem>
+                <SelectItem value="CR">Costa Rica</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
             <label className="text-sm text-gray-500 block mb-1">Buscar</label>
             <Input
               type="text"
@@ -202,6 +230,7 @@ const RulesManagementPage = () => {
                 <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Tipo</th>
                 <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Criterio</th>
                 <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Acción</th>
+                <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">País</th>
                 <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Descripción</th>
                 <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Estado</th>
                 <th className="px-6 py-3 text-xs font-medium text-gray-500 uppercase tracking-wider">Actualizado</th>
@@ -242,6 +271,11 @@ const RulesManagementPage = () => {
                         {rule.action}
                       </span>
                     </td>
+                    <td className="px-6 py-4 whitespace-nowrap">
+                      <span className="inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium bg-gray-100 text-gray-800">
+                        {rule.country}
+                      </span>
+                    </td>
                     <td className="px-6 py-4">
                       <div className="text-sm text-gray-900">{rule.description}</div>
                     </td>
@@ -272,7 +306,7 @@ const RulesManagementPage = () => {
                 ))
               ) : (
                 <tr>
-                  <td colSpan={7} className="px-6 py-4 text-center text-gray-500">
+                  <td colSpan={8} className="px-6 py-4 text-center text-gray-500">
                     No se encontraron reglas con los filtros seleccionados
                   </td>
                 </tr>

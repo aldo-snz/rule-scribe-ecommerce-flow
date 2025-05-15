@@ -29,6 +29,7 @@ const CreateRulePage = () => {
   const [ruleType, setRuleType] = useState<string>('Blacklist');
   const [action, setAction] = useState<string>('Excluir');
   const [message, setMessage] = useState<string>('');
+  const [country, setCountry] = useState<string>('UY');
   
   // Sample products that would be affected
   const affectedProducts = [
@@ -126,6 +127,23 @@ const CreateRulePage = () => {
                     <SelectContent>
                       <SelectItem value="Incluir">Incluir</SelectItem>
                       <SelectItem value="Excluir">Excluir</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+
+                {/* Country */}
+                <div className="space-y-2">
+                  <Label htmlFor="country">País</Label>
+                  <Select value={country} onValueChange={setCountry}>
+                    <SelectTrigger id="country">
+                      <SelectValue placeholder="Seleccione país" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="EC">Ecuador</SelectItem>
+                      <SelectItem value="UY">Uruguay</SelectItem>
+                      <SelectItem value="AR">Argentina</SelectItem>
+                      <SelectItem value="PE">Perú</SelectItem>
+                      <SelectItem value="CR">Costa Rica</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
