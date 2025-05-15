@@ -55,14 +55,7 @@ const DashboardPage = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
-        <StatCard
-          title="Total de Productos Afectados"
-          value="15,245"
-          description="32% del catálogo total"
-          trend={{ value: 5, isPositive: true }}
-          icon={<span className="text-2xl">📦</span>}
-        />
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <StatCard
           title="Reglas Activas"
           value="54"
